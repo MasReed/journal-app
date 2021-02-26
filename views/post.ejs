@@ -1,0 +1,18 @@
+
+<%- include("partials/header"); -%>
+
+<main class="container">
+    <h1>Results</h1>
+    <p></p>
+
+    <hr />
+
+    <!-- List all posts -->
+    <% foundPosts.forEach(function(post){ %>
+        <h3><%= post.title %></h3>
+        <p><%= post.content %></p>
+    <% }); %>
+
+</main>
+
+<%- include("partials/footer"); -%>

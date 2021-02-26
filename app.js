@@ -16,10 +16,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 
 
-//Temporary data to display
-const homeContent = 'This is home content to display.'
-
-
 // App home route
 app.get('/', function(req, res){
     res.render('home.ejs', {
@@ -32,6 +28,7 @@ app.get('/', function(req, res){
 app.get('/compose', function(req, res){
     res.render('compose.ejs');
 });
+
 
 // App compose post route
 app.post('/compose', function(req, res){
@@ -46,9 +43,43 @@ app.post('/compose', function(req, res){
 });
 
 
+// Dynamic page route (express route parameters)
+app.get('/:postName', function(req, res){
+
+    const postRequested = _.lowerCase(req.params.postName);
+
+    // Get all posts with same title
+    const foundPosts = posts.filter(function(post){
+        return _.lowerCase(post.title) === postRequested;
+    });
+
+    res.render('post.ejs', {
+        foundPosts: foundPosts
+    });
+
+    // Using forEach method NOTE: only displays first post with title
+    // posts.forEach(function(post){
+    //     const postStored = _.lowerCase(post.title);
+    //     if (postRequested === postStored){
+    //         console.log("post exists");
+    //         res.render('post', {
+    //             title: post.title,
+    //             content: post.content
+    //         });
+    //     }
+    // });
+});
+
+
 // App about route
 app.get('/about', function(req, res){
     res.render('about.ejs');
+})
+
+
+// App contact route
+app.get('/contact', function(req, res){
+    res.render('contact.ejs');
 })
 
 

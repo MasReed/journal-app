@@ -10,7 +10,10 @@
     <!-- List all posts -->
     <% posts.forEach(function(post){ %>
         <h3><%= post.title %></h3>
-        <p><%= post.content %></p>
+        <p>
+            <%= post.content.substring(0, 100) + ' ...' %>
+            <a href="/<%= post.title %>">More</a>
+        </p>
     <% }); %>
 
 </main>
