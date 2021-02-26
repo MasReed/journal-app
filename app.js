@@ -20,6 +20,11 @@ app.get('/', function(req, res){
     res.render('home.ejs');
 });
 
+// App about route
+app.get('/about', function(req, res){
+    res.render('about.ejs');
+})
+
 
 // Listen for server connection
 app.listen(port, function(){
