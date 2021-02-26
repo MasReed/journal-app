@@ -5,10 +5,14 @@ const express = require('express');
 const _ = require('lodash');
 const mongoose = require('mongoose');
 
-const port = 3000;
+const port = process.env.PORT;
+if (port == null || port == ""){
+    port = 3000;
+}
 
 
 // Database connection with mongoose
+//process.env.mongoDB_KEY
 mongoose.connect('mongodb://localhost:27017/journal', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
