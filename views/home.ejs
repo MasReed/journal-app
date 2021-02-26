@@ -2,8 +2,17 @@
 <%- include("partials/header"); -%>
 
 <main class="container">
-    <h1>This is the home section.</h1>
-    <p>Main content2.</p>
+    <h1>Sojourn(al)er</h1>
+    <p>Welcome to the temporary journal. A journal of entries from around the world meant to be forgotten...</p>
+
+    <hr />
+
+    <!-- List all posts -->
+    <% posts.forEach(function(post){ %>
+        <h3><%= post.title %></h3>
+        <p><%= post.content %></p>
+    <% }); %>
+
 </main>
 
 <%- include("partials/footer"); -%>

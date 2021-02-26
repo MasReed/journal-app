@@ -1,3 +1,8 @@
 h1 {
-    margin-top: 200px;
+    margin-top: 150px;
+    margin-bottom: 75px;
+}
+
+.copyright-tag {
+    margin: 200px 0;
 }
