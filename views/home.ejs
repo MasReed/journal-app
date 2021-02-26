@@ -12,7 +12,7 @@
         <h3><%= post.title %></h3>
         <p>
             <%= post.content.substring(0, 100) + ' ...' %>
-            <a href="/<%= post.title %>">More</a>
+            <a href="/<%= post._id%>">More</a>
         </p>
     <% }); %>
 

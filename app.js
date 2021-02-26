@@ -6,7 +6,15 @@ const _ = require('lodash');
 const mongoose = require('mongoose');
 
 const port = 3000;
-const posts = [];
+
+
+// Database connection with mongoose
+mongoose.connect('mongodb://localhost:27017/journal', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+});
+
 
 // Express instance with EJS templates and package utilization
 app = express();
@@ -16,10 +24,29 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static('public'));
 
 
+/////////////////////////////////////SCHEMAS////////////////////////////////////
+
+// Journal post schema
+const postSchema = new mongoose.Schema({
+    title: String,
+    content: String,
+    author: String,
+});
+
+const Post = mongoose.model('Post', postSchema);
+
+
+//////////////////////////////////////PAGES/////////////////////////////////////
+
 // App home route
 app.get('/', function(req, res){
-    res.render('home.ejs', {
-        posts: posts
+
+    Post.find({}, (err, posts) => {
+        if (err) console.log(err);
+
+        res.render('home.ejs', {
+            posts: posts
+        });
     });
 });
 
@@ -33,41 +60,32 @@ app.get('/compose', function(req, res){
 // App compose post route
 app.post('/compose', function(req, res){
 
-    const post = {
+    const post = new Post({
         title: req.body.postTitle,
         content: req.body.postContent
-    }
+    });
 
-    posts.push(post);
+    post.save(function(err){
+        if (err) return console.log(err);
+    });
+
     res.redirect('/');
 });
 
 
 // Dynamic page route (express route parameters)
-app.get('/:postName', function(req, res){
+app.get('/:postId', function(req, res){
 
-    const postRequested = _.lowerCase(req.params.postName);
+    const postIdRequested = req.params.postId;
 
-    // Get all posts with same title
-    const foundPosts = posts.filter(function(post){
-        return _.lowerCase(post.title) === postRequested;
+    //Use unique post id as url
+    Post.findOne({_id: postIdRequested}, (err, post) => {
+        if (err) console.log(err);
+
+        res.render('post.ejs', {
+            post: post
+        });
     });
-
-    res.render('post.ejs', {
-        foundPosts: foundPosts
-    });
-
-    // Using forEach method NOTE: only displays first post with title
-    // posts.forEach(function(post){
-    //     const postStored = _.lowerCase(post.title);
-    //     if (postRequested === postStored){
-    //         console.log("post exists");
-    //         res.render('post', {
-    //             title: post.title,
-    //             content: post.content
-    //         });
-    //     }
-    // });
 });
 
 
