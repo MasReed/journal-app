@@ -12,8 +12,7 @@ if (port == null || port == ""){
 
 
 // Database connection with mongoose
-//process.env.mongoDB_KEY
-mongoose.connect('mongodb://localhost:27017/journal', {
+mongoose.connect(process.env.mongoDB_ATLAS_KEY, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
